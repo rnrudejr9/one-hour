@@ -45,7 +45,6 @@ function pauseClock() {
 
 function decreaseClock() {
   updatedDuration.value--;
-  document.title = updatedDuration.value;
   if (updatedDuration.value == 0) {
     isStarted.value = false;
   }

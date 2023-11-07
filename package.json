@@ -5,13 +5,18 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "hello": "echo world",
+    "predeploy": "vite build",
+    "deploy": "gh-pages -d dist",
+    "clean": "gh-pages-clean"
   },
   "dependencies": {
     "vue": "^3.3.4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.4.0",
+    "gh-pages": "^6.0.0",
     "vite": "^4.4.11"
   }
 }

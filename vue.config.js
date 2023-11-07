@@ -1,3 +1,4 @@
 module.exports = {
-  publicPath: "/one-hour",
+  publicPath: "/one-hour/",
+  outputDir: "dist",
 };
