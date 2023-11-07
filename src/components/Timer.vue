@@ -1,9 +1,11 @@
 <script setup>
 import TimeDisplay from "./TimeDisplay.vue";
+import RecodeDisplay from "./RecodeDisplay.vue";
 import { ref } from "vue";
 
 const timeInput = ref("00:00:00");
 const isStarted = ref(false);
+const isFinished = ref(false);
 let updatedDuration = ref(0);
 
 function setDuration(timeInput) {
@@ -47,6 +49,7 @@ function decreaseClock() {
   updatedDuration.value--;
   if (updatedDuration.value == 0) {
     isStarted.value = false;
+    isFinished.value = true;
     firework();
   }
 }
@@ -87,6 +90,8 @@ function firework() {
 </script>
 
 <template>
+  <RecodeDisplay v-if="isFinished" />
+
   <div class="container">
     <TimeDisplay
       @time-decrease="decreaseClock"
@@ -139,6 +144,14 @@ function firework() {
         @click="setDuration('00:15:00')"
       >
         15min
+      </button>
+      <button
+        title="Set Preset"
+        :class="{ disabled: isStarted }"
+        :disabled="isStarted"
+        @click="setDuration('00:00:01')"
+      >
+        test timer setting
       </button>
     </div>
     <input type="time" step="2" v-model="timeInput" />
