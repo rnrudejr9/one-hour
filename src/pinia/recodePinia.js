@@ -7,14 +7,11 @@ import { defineStore } from "pinia";
 export const useRecodeStore = defineStore("recodeStore", {
   state: () => ({ items: [] }),
   getters: {
-    doubleCount: (state) => state.count * 2,
+    itemSize: (state) => (state.items.length > 0 ? true : false),
   },
   actions: {
     increment() {
       this.count++;
-    },
-    addRecode(recode) {
-      state.items.push({ id: "1" });
     },
   },
 });

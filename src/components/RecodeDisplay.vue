@@ -6,15 +6,12 @@ let id = 0;
 
 const isFinished = inject("isFinished");
 
-const recodes = ref([
-  { id: id++, text: "내가 한 핵심내용들", done: false },
-  { id: id++, text: "내가 한 정리", done: false },
-]);
+const recodes = ref(["내가 한 핵심내용들", "내가 한 정리"]);
 
 const newRecode = ref("");
 
 function addRecode() {
-  recodes.value.push({ id: id++, text: newRecode.value, done: false });
+  recodes.value.push(newRecode.value);
   newRecode.value = "";
 }
 
@@ -24,16 +21,30 @@ function removeRecode(recode) {
 
 function saveRecode() {
   isFinished.value = false;
+  const data = makeRecode();
   store.$patch((state) => {
-    state.items.push(recodes);
+    state.items.push(data);
     state.hasChanged = true;
   });
+}
+
+function makeRecode() {
+  const savedRecode = {
+    text: recodes,
+    startTime: 1,
+    endTime: 2,
+    takeTime: 3,
+    stopTime: 4,
+  };
+  return savedRecode;
 }
 
 const store = useRecodeStore();
 </script>
 
 <template>
+  {{ recodes }}
+
   <form @submit.prevent="addRecode">
     <input v-model="newRecode" />
     <button>Add Todo</button>
@@ -41,7 +52,7 @@ const store = useRecodeStore();
   <ul>
     <li v-for="recode in recodes" :key="recode.id">
       <input type="checkbox" v-model="recode.done" />
-      <span :class="{ done: recode.done }">{{ recode.text }}</span>
+      <span :class="{ done: recode.done }">{{ recode }}</span>
       <button @click="removeRecode(recode)">X</button>
     </li>
   </ul>

@@ -6,16 +6,14 @@ const store = useRecodeStore();
 </script>
 
 <template>
+  피냐스토어 : {{ store }}
   <h1>SideBar Area</h1>
-  <div v-if="store.isHave">여기는 값이 있으면 보입니다</div>
-  {{ store }}
-  <br />
-  {{ store.count }}
-  <br />
-  {{ store.name }}
-  <br />
-  {{ store.items }}
-  <div><Recode /></div>
+  <div v-if="store.itemSize">
+    여기는 값이 있으면 보입니다
+    <div v-for="recode in store.items">
+      <Recode :recode="recode" />
+    </div>
+  </div>
 </template>
 
 <style scoped></style>
