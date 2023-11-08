@@ -65,7 +65,6 @@ function decreaseClock() {
 
 <template>
   <RecodeDisplay v-if="isFinished" />
-  <Recode />
   <div class="container">
     <TimeDisplay
       @time-decrease="decreaseClock"

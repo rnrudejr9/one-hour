@@ -1,6 +1,6 @@
 <script setup></script>
 <template>
-  <div>{{ recode }}</div>
+  <div></div>
   <button>dddd</button>
 </template>
 

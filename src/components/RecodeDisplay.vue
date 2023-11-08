@@ -1,5 +1,6 @@
 <script setup>
 import { inject, ref, provide } from "vue";
+import { useRecodeStore } from "@/pinia/recodePinia";
 
 let id = 0;
 
@@ -23,18 +24,16 @@ function removeRecode(recode) {
 
 function saveRecode() {
   isFinished.value = false;
+  store.$patch((state) => {
+    state.items.push(recodes);
+    state.hasChanged = true;
+  });
 }
+
+const store = useRecodeStore();
 </script>
 
 <template>
-  <form v-on:submit.prevent>
-    <input type="text" />
-    <button>추가</button>
-    inject 받은 데이터 {{ isFinished }}
-    여기는 모달창입니다.
-    <button @click="isFinished = false">모달창 닫기</button>
-  </form>
-
   <form @submit.prevent="addRecode">
     <input v-model="newRecode" />
     <button>Add Todo</button>
