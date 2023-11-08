@@ -8,7 +8,15 @@ import { firework } from "../composable/firework.js";
 const timeInput = ref("00:00:00");
 const isStarted = ref(false);
 const isFinished = ref(false);
+const startTime = ref(0);
+const endTime = ref(0);
+const chooseTime = ref("");
+const stopCount = ref(0);
 
+provide("stop",{
+  stopCount,
+  setCountZero
+});
 provide("isFinished", isFinished);
 let updatedDuration = ref(0);
 
@@ -41,15 +49,38 @@ function startClock() {
     if (updatedDuration.value > 0) {
       console.log("toggle");
       isStarted.value = true;
+      chooseTime.value = getDisplayTime(updatedDuration.value);
       timeInput.value = "00:00:00";
+      startTime.value = new Date();
     }
   }
 }
+
+function getDisplayTime(time) {
+  let hours, minutes, seconds;
+
+  hours = Math.floor(time / 60 / 60);
+  minutes = Math.floor(time / 60 - hours * 60);
+  seconds = Math.floor(time % 60);
+
+  let hourString = hours < 10 ? "0" + hours : hours;
+  let minuteString = minutes < 10 ? "0" + minutes : minutes;
+  let secondsString = seconds < 10 ? "0" + seconds : seconds;
+
+  let displayTime = `${hourString}:${minuteString}:${secondsString}`;
+  return displayTime;
+}
+
+function setCountZero(){
+  stopCount.value = 0;
+}
+
 
 function pauseClock() {
   if (isStarted.value) {
     console.log("toggle");
     isStarted.value = false;
+    stopCount.value++;
   }
 }
 
@@ -58,13 +89,18 @@ function decreaseClock() {
   if (updatedDuration.value == 0) {
     isStarted.value = false;
     isFinished.value = true;
+    endTime.value = new Date();
     firework();
   }
 }
 </script>
 
 <template>
-  <RecodeDisplay v-if="isFinished" />
+  stopCount : {{ stopCount }}
+  <RecodeDisplay v-if="isFinished"
+    :start-time="startTime"
+    :end-time="endTime"
+    :choose-time="chooseTime"/>
   <div class="container">
     <TimeDisplay
       @time-decrease="decreaseClock"
