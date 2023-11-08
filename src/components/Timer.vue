@@ -1,11 +1,13 @@
 <script setup>
 import TimeDisplay from "./TimeDisplay.vue";
 import RecodeDisplay from "./RecodeDisplay.vue";
-import { ref } from "vue";
+import { ref, provide } from "vue";
 
 const timeInput = ref("00:00:00");
 const isStarted = ref(false);
 const isFinished = ref(false);
+
+provide("isFinished", isFinished);
 let updatedDuration = ref(0);
 
 function setDuration(timeInput) {
@@ -22,6 +24,10 @@ function setDuration(timeInput) {
   } else {
     alert("Invalid input! Enter a positive number");
   }
+}
+
+function closeModal() {
+  isFinished.value = false;
 }
 
 function addDuration(time) {
