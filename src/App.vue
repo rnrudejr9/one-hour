@@ -10,9 +10,16 @@ import SideBar from "./components/layout/SideBar.vue";
   </header>
   <Header />
   <main>
+    <Header />
     <Timer />
   </main>
-  <SideBar />
+  <body>
+    <SideBar />
+  </body>
 </template>
 
-<style scoped></style>
+<style scoped>
+* {
+  text-align: center;
+}
+</style>
