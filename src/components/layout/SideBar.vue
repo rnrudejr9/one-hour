@@ -6,6 +6,7 @@ const store = useRecodeStore();
 </script>
 
 <template>
+
   <h1>SideBar Area</h1>
   <div v-if="store.itemSize">
     여기는 값이 있으면 보입니다
