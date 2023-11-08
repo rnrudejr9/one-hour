@@ -3,7 +3,7 @@ import { ref, computed, watch } from "vue";
 
 const emit = defineEmits(["timeDecrease"]);
 const clock = ref("00:00:00");
-const volumeStateIcon = ref("fa-volume-high");
+// const volumeStateIcon = ref("fa-volume-high");
 const props = defineProps<{
   duration;
   isStarted;
@@ -21,15 +21,15 @@ const duration = computed(() => {
 
 let storedDuration = props.duration;
 
-const switchVolume = () => {
-  if (volumeStateIcon.value === "fa-volume-high") {
-    volumeStateIcon.value = "fa-volume-mute";
-    soundOn.value = false;
-  } else {
-    volumeStateIcon.value = "fa-volume-high";
-    soundOn.value = true;
-  }
-};
+// const switchVolume = () => {
+//   if (volumeStateIcon.value === "fa-volume-high") {
+//     volumeStateIcon.value = "fa-volume-mute";
+//     soundOn.value = false;
+//   } else {
+//     volumeStateIcon.value = "fa-volume-high";
+//     soundOn.value = true;
+//   }
+// };
 
 const startTimer = function () {
   console.log(storedDuration);
@@ -40,21 +40,21 @@ const startTimer = function () {
       console.log(storedDuration);
       updateDisplay(storedDuration - 1);
       storedDuration--;
-      if (soundOn.value) {
-        const tickSound = new Audio("./src/assets/tick.wav");
-        tickSound.play();
-      }
+      // if (soundOn.value) {
+      //   const tickSound = new Audio("./src/assets/tick.wav");
+      //   tickSound.play();
+      // }
       emit("timeDecrease");
     }
     if (storedDuration == 0) {
-      if (soundOn.value) {
-        const timeUpSound = new Audio("./src/assets/time-up.wav");
-        timeUpSound.play();
-      } else {
-        setTimeout(() => {
-          alert("Time is up!");
-        }, 1000);
-      }
+      // if (soundOn.value) {
+      //   const timeUpSound = new Audio("./src/assets/time-up.wav");
+      //   timeUpSound.play();
+      // } else {
+      //   setTimeout(() => {
+      //     alert("Time is up!");
+      //   }, 1000);
+      // }
     }
   }, 1000);
 };
@@ -95,19 +95,19 @@ watch(isStarted, () => {
   <div class="circle-container">
     <div class="circle">
       <h2 :class="{ 'clock-stopped': !isStarted }">{{ clock }}</h2>
-      <button @click="switchVolume">
+      <!-- <button @click="switchVolume">
         <font-awesome-icon :icon="`fa-solid ${volumeStateIcon}`" size="l" />
-      </button>
+      </button> -->
     </div>
   </div>
 </template>
 
 <style scoped>
-.circle-container {
+/* .circle-container {
   position: relative;
-}
+} */
 
-.circle {
+/* .circle {
   height: 250px;
   width: 250px;
   border: 2px dashed var(--color-dark);
@@ -122,7 +122,7 @@ watch(isStarted, () => {
   font-size: 3.5em;
   color: var(--color-dark);
   transition: all 0.3s;
-}
+} */
 
 h2.clock-stopped {
   color: #888;
@@ -146,7 +146,7 @@ button:hover {
   opacity: 0.7;
 }
 
-@media (min-width: 481px) {
+/* @media (min-width: 481px) {
   .circle {
     height: 300px;
     width: 300px;
@@ -154,5 +154,5 @@ button:hover {
   .circle h2 {
     font-size: 4em;
   }
-}
+} */
 </style>
