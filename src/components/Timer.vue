@@ -1,9 +1,15 @@
 <script setup>
 import TimeDisplay from "./TimeDisplay.vue";
-import { ref } from "vue";
+import Recode from "./Recode.vue";
+import RecodeDisplay from "./RecodeDisplay.vue";
+import { ref, provide } from "vue";
+import { firework } from "../composable/firework.js";
 
 const timeInput = ref("00:00:00");
 const isStarted = ref(false);
+const isFinished = ref(false);
+
+provide("isFinished", isFinished);
 let updatedDuration = ref(0);
 
 function setDuration(timeInput) {
@@ -20,6 +26,10 @@ function setDuration(timeInput) {
   } else {
     alert("Invalid input! Enter a positive number");
   }
+}
+
+function closeModal() {
+  isFinished.value = false;
 }
 
 function addDuration(time) {
@@ -47,46 +57,14 @@ function decreaseClock() {
   updatedDuration.value--;
   if (updatedDuration.value == 0) {
     isStarted.value = false;
+    isFinished.value = true;
     firework();
   }
-}
-
-function firework() {
-  var duration = 15 * 100;
-  var animationEnd = Date.now() + duration;
-  var defaults = { startVelocity: 25, spread: 360, ticks: 50, zIndex: 0 };
-  //  startVelocity: 범위, spread: 방향, ticks: 갯수
-
-  function randomInRange(min, max) {
-    return Math.random() * (max - min) + min;
-  }
-
-  var interval = setInterval(function () {
-    var timeLeft = animationEnd - Date.now();
-
-    if (timeLeft <= 0) {
-      return clearInterval(interval);
-    }
-
-    var particleCount = 50 * (timeLeft / duration);
-    // since particles fall down, start a bit higher than random
-    confetti(
-      Object.assign({}, defaults, {
-        particleCount,
-        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
-      })
-    );
-    confetti(
-      Object.assign({}, defaults, {
-        particleCount,
-        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-      })
-    );
-  }, 250);
 }
 </script>
 
 <template>
+  <RecodeDisplay v-if="isFinished" />
   <div class="container">
     <TimeDisplay
       @time-decrease="decreaseClock"
@@ -139,6 +117,14 @@ function firework() {
         @click="setDuration('00:15:00')"
       >
         15min
+      </button>
+      <button
+        title="Set Preset"
+        :class="{ disabled: isStarted }"
+        :disabled="isStarted"
+        @click="setDuration('00:00:01')"
+      >
+        test timer setting
       </button>
     </div>
     <input type="time" step="2" v-model="timeInput" />
