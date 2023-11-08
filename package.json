@@ -12,6 +12,7 @@
     "clean": "gh-pages-clean"
   },
   "dependencies": {
+    "pinia": "^2.1.7",
     "vue": "^3.3.4"
   },
   "devDependencies": {
