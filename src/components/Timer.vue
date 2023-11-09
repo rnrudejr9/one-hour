@@ -109,9 +109,6 @@ function finishClock() {
 </script>
 
 <template>
-  progressed : {{ isPrograssed }}
-  <br />
-  stopCount : {{ stopCount }}
   <RecodeDisplay
     v-if="isFinished"
     :start-time="startTime"
@@ -142,10 +139,7 @@ function finishClock() {
           pause
           <font-awesome-icon icon="fa-solid fa-pause" size="xl" />
         </button>
-        <button title="+10 Seconds" @click="addDuration(10)">
-          +
-          <font-awesome-icon icon="fa-solid fa-plus-circle" size="xl" />
-        </button>
+
         <button
           :class="{ disabled: isStarted }"
           title="fin"
@@ -191,8 +185,8 @@ function finishClock() {
       </div>
       <input type="time" step="2" v-model="timeInput" />
       <button
-        :class="{ disabled: isStarted }"
-        :disabled="isStarted"
+        :class="{ disabled: isStarted | isPrograssed }"
+        :disabled="isStarted | isPrograssed"
         @click="setDuration(timeInput)"
         class="set-custom-btn"
       >
