@@ -4,7 +4,6 @@ const recoder = props.recode;
 </script>
 <template>
   <div class="card">
-    <!-- <img src="img_avatar.png" alt="Avatar" style="width: 100%" /> -->
     <div class="container">
       <h4>
         <div v-for="t in recoder.text">
