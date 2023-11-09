@@ -6,9 +6,20 @@ let id = 0;
 
 const isFinished = inject("isFinished");
 
+const { stopCount, setCountZero } = inject("stop");
+
 const recodes = ref(["내가 한 핵심내용들", "내가 한 정리"]);
 
 const newRecode = ref("");
+
+const props = defineProps({
+  startTime: Date,
+  endTime: Date,
+  chooseTime: String,
+})
+const startTime = props.startTime;
+const endTime = props.endTime;
+const chooseTime = props.chooseTime;
 
 function addRecode() {
   recodes.value.push(newRecode.value);
@@ -26,17 +37,42 @@ function saveRecode() {
     state.items.push(data);
     state.hasChanged = true;
   });
+  setCountZero();
 }
 
 function makeRecode() {
   const savedRecode = {
     text: recodes,
-    startTime: 1,
-    endTime: 2,
-    takeTime: 3,
-    stopTime: 4,
+    startTime: calcNowTime(startTime),
+    endTime: calcNowTime(endTime),
+    takeTime: diffTime(),
+    chooseTime: chooseTime,
+    stopCount: stopCount.value,
   };
   return savedRecode;
+}
+
+function diffTime(){
+  let dateGap = endTime.getTime() - startTime.getTime();
+  let timeGap = new Date(0,0,0,0,0,0,endTime - startTime);
+  let diffDay  = Math.floor(dateGap / (1000 * 60 * 60 * 24)); // 일수       
+  let hour = timeGap.getHours();       // 시간
+  let min  = timeGap.getMinutes();      // 분
+  let sec  = timeGap.getSeconds();      // 초
+  const diff = hour+":"+min+":"+sec;
+  return diff;
+}
+
+function calcNowTime(date){
+  var today = date;
+  var year = today.getFullYear();
+  var month = ('0' + (today.getMonth() + 1)).slice(-2);
+  var day = ('0' + today.getDate()).slice(-2);
+  var hours = ('0' + today.getHours()).slice(-2); 
+  var minutes = ('0' + today.getMinutes()).slice(-2);
+  var seconds = ('0' + today.getSeconds()).slice(-2); 
+  var todayTime = year + '-' + month  + '-' + day + " " + hours + ':' + minutes  + ':' + seconds;
+  return todayTime;
 }
 
 const store = useRecodeStore();
@@ -44,6 +80,11 @@ const store = useRecodeStore();
 
 <template>
   {{ recodes }}
+  <br />
+  start time : {{ startTime }}
+  <br />
+  end time : {{ endTime }}
+  <br />
 
   <form @submit.prevent="addRecode">
     <input v-model="newRecode" />
