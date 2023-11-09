@@ -6,7 +6,7 @@ import SideBar from "./components/layout/SideBar.vue";
 
 <template>
   <header>
-    <h1>Timer App 수정된 배포 앱</h1>
+    <h1>Timer App</h1>
   </header>
   <main>
     <Header />

@@ -1,14 +1,6 @@
 # vue-project
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+`배포 : one-hour.netlify.app/`
 
 ## Project Setup
 
@@ -27,3 +19,13 @@ npm run dev
 ```sh
 npm run build
 ```
+
+### 어려웠던 점들
+
+#### 시간계산로직
+
+- 시작시작, 종료시간 기록, 시간차이 계산
+
+#### 컴포넌트 분리 방법
+
+- 아직까진 체계화되진 않았음 하면 추가 작성 예정
