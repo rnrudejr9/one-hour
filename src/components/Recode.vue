@@ -3,10 +3,6 @@ const props = defineProps(["recode"]);
 const recoder = props.recode;
 </script>
 <template>
-  <div><h3>Recode Area</h3></div>
-
-  <h2>Card</h2>
-
   <div class="card">
     <img src="img_avatar.png" alt="Avatar" style="width: 100%" />
     <div class="container">

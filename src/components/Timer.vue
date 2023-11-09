@@ -93,6 +93,19 @@ function decreaseClock() {
     firework();
   }
 }
+
+function finishClock() {
+  if (!isStarted.value) {
+    if (updatedDuration.value > 0) {
+      updatedDuration.value = 0;
+      isStarted.value = false;
+      isFinished.value = true;
+      endTime.value = new Date();
+      isPrograssed.value = false;
+      firework();
+    }
+  }
+}
 </script>
 
 <template>
@@ -105,77 +118,87 @@ function decreaseClock() {
     :end-time="endTime"
     :choose-time="chooseTime"
   />
-  <div class="container">
-    <TimeDisplay
-      @time-decrease="decreaseClock"
-      :duration="updatedDuration"
-      :is-started="isStarted"
-    />
-    <div class="control-buttons">
+  <div v-else>
+    <div class="container">
+      <TimeDisplay
+        @time-decrease="decreaseClock"
+        :duration="updatedDuration"
+        :is-started="isStarted"
+      />
+      <div class="control-buttons">
+        <button
+          :class="{ disabled: isStarted }"
+          title="Start"
+          @click="startClock()"
+        >
+          start
+          <font-awesome-icon icon="fa-solid fa-play" size="xl" />
+        </button>
+        <button
+          :class="{ disabled: !isStarted }"
+          title="Pause/Stop"
+          @click="pauseClock()"
+        >
+          pause
+          <font-awesome-icon icon="fa-solid fa-pause" size="xl" />
+        </button>
+        <button title="+10 Seconds" @click="addDuration(10)">
+          +
+          <font-awesome-icon icon="fa-solid fa-plus-circle" size="xl" />
+        </button>
+        <button
+          :class="{ disabled: isStarted }"
+          title="fin"
+          @click="finishClock()"
+        >
+          Finish
+          <font-awesome-icon icon="fa-solid fa-plus-circle" size="xl" />
+        </button>
+      </div>
+      <div class="presets-buttons">
+        <button
+          title="Set Preset"
+          :class="{ disabled: isStarted | isPrograssed }"
+          :disabled="isStarted | isPrograssed"
+          @click="setDuration('01:00:00')"
+        >
+          1h
+        </button>
+        <button
+          title="Set Preset"
+          :class="{ disabled: isStarted | isPrograssed }"
+          :disabled="isStarted | isPrograssed"
+          @click="setDuration('00:30:00')"
+        >
+          30min
+        </button>
+        <button
+          title="Set Preset"
+          :class="{ disabled: isStarted | isPrograssed }"
+          :disabled="isStarted | isPrograssed"
+          @click="setDuration('00:15:00')"
+        >
+          15min
+        </button>
+        <button
+          title="Set Preset"
+          :class="{ disabled: isStarted | isPrograssed }"
+          :disabled="isStarted | isPrograssed"
+          @click="setDuration('00:00:01')"
+        >
+          test timer setting
+        </button>
+      </div>
+      <input type="time" step="2" v-model="timeInput" />
       <button
         :class="{ disabled: isStarted }"
-        title="Start"
-        @click="startClock()"
+        :disabled="isStarted"
+        @click="setDuration(timeInput)"
+        class="set-custom-btn"
       >
-        start
-        <font-awesome-icon icon="fa-solid fa-play" size="xl" />
-      </button>
-      <button
-        :class="{ disabled: !isStarted }"
-        title="Pause/Stop"
-        @click="pauseClock()"
-      >
-        pause
-        <font-awesome-icon icon="fa-solid fa-pause" size="xl" />
-      </button>
-      <button title="+10 Seconds" @click="addDuration(10)">
-        +
-        <font-awesome-icon icon="fa-solid fa-plus-circle" size="xl" />
+        Set custom time
       </button>
     </div>
-    <div class="presets-buttons">
-      <button
-        title="Set Preset"
-        :class="{ disabled: isStarted }"
-        :disabled="isStarted"
-        @click="setDuration('01:00:00')"
-      >
-        1h
-      </button>
-      <button
-        title="Set Preset"
-        :class="{ disabled: isStarted }"
-        :disabled="isStarted"
-        @click="setDuration('00:30:00')"
-      >
-        30min
-      </button>
-      <button
-        title="Set Preset"
-        :class="{ disabled: isStarted }"
-        :disabled="isStarted"
-        @click="setDuration('00:15:00')"
-      >
-        15min
-      </button>
-      <button
-        title="Set Preset"
-        :class="{ disabled: isStarted }"
-        :disabled="isStarted"
-        @click="setDuration('00:00:01')"
-      >
-        test timer setting
-      </button>
-    </div>
-    <input type="time" step="2" v-model="timeInput" />
-    <button
-      :class="{ disabled: isStarted }"
-      :disabled="isStarted"
-      @click="setDuration(timeInput)"
-      class="set-custom-btn"
-    >
-      Set custom time
-    </button>
   </div>
 </template>
 
