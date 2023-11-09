@@ -8,14 +8,15 @@ import { firework } from "../composable/firework.js";
 const timeInput = ref("00:00:00");
 const isStarted = ref(false);
 const isFinished = ref(false);
+const isPrograssed = ref(false);
 const startTime = ref(0);
 const endTime = ref(0);
 const chooseTime = ref("");
 const stopCount = ref(0);
 
-provide("stop",{
+provide("stop", {
   stopCount,
-  setCountZero
+  setCountZero,
 });
 provide("isFinished", isFinished);
 let updatedDuration = ref(0);
@@ -36,10 +37,6 @@ function setDuration(timeInput) {
   }
 }
 
-function closeModal() {
-  isFinished.value = false;
-}
-
 function addDuration(time) {
   updatedDuration.value += time;
 }
@@ -51,7 +48,10 @@ function startClock() {
       isStarted.value = true;
       chooseTime.value = getDisplayTime(updatedDuration.value);
       timeInput.value = "00:00:00";
-      startTime.value = new Date();
+      if (!isPrograssed.value) {
+        startTime.value = new Date();
+        isPrograssed.value = true;
+      }
     }
   }
 }
@@ -71,10 +71,9 @@ function getDisplayTime(time) {
   return displayTime;
 }
 
-function setCountZero(){
+function setCountZero() {
   stopCount.value = 0;
 }
-
 
 function pauseClock() {
   if (isStarted.value) {
@@ -90,17 +89,22 @@ function decreaseClock() {
     isStarted.value = false;
     isFinished.value = true;
     endTime.value = new Date();
+    isPrograssed.value = false;
     firework();
   }
 }
 </script>
 
 <template>
+  progressed : {{ isPrograssed }}
+  <br />
   stopCount : {{ stopCount }}
-  <RecodeDisplay v-if="isFinished"
+  <RecodeDisplay
+    v-if="isFinished"
     :start-time="startTime"
     :end-time="endTime"
-    :choose-time="chooseTime"/>
+    :choose-time="chooseTime"
+  />
   <div class="container">
     <TimeDisplay
       @time-decrease="decreaseClock"
@@ -121,7 +125,7 @@ function decreaseClock() {
         title="Pause/Stop"
         @click="pauseClock()"
       >
-        stop
+        pause
         <font-awesome-icon icon="fa-solid fa-pause" size="xl" />
       </button>
       <button title="+10 Seconds" @click="addDuration(10)">
