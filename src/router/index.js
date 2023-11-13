@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import ManualHourStudy from "../components/instruction/ManualHourStudy.vue";
-// import HowToUse from "../components/instruction/HowToUse.vue";
+import ManualHourStudy from "../views/ManualHourStudy.vue";
+import HowToUse from "../views/HowToUse.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -10,11 +10,11 @@ const router = createRouter({
       name: "manual",
       component: ManualHourStudy,
     },
-    // {
-    //   path: "/how",
-    //   name: "how",
-    //   component: HowToUse,
-    // },
+    {
+      path: "/how",
+      name: "how",
+      component: HowToUse,
+    },
   ],
 });
 
