@@ -1,13 +1,7 @@
-<script setup>
-
-</script>
+<script setup></script>
 
 <template>
-    <div>
-        
-    </div>
+  <div>바이</div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
